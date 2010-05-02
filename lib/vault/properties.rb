@@ -10,6 +10,9 @@ module Vault
         properties << prop
         define_property_methods(prop.name)
 
+        # FIXME: Ugh, ActiveModel fails with this, I can't do incremental method
+        # definition, you have to define them all at once (so undefine/define
+        # each time if you don't know all the properties upfront, like here.)
         undefine_attribute_methods
         define_attribute_methods(property_names)
       end
@@ -26,11 +29,11 @@ module Vault
     def define_property_methods(name)
       class_eval <<-ruby, __FILE__, __LINE__
         def #{name}
-          @_attributes[:#{name}]
+          read_attribute(:#{name})
         end
 
         def #{name}=(value)
-          @_attributes[:#{name}] = value
+          write_attribute(:#{name}, value)
         end
       ruby
     end
