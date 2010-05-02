@@ -6,6 +6,19 @@ module Vault
       include ActiveModel::Dirty
     end
 
+    def save(*)
+      super.tap do |saved|
+        if saved
+          if attribute_changed?(self.class.key)
+            self.class.store.delete(attribute_was(self.class.key))
+          end
+
+          @previously_changed = changes
+          changed_attributes.clear
+        end
+      end
+    end
+
     def write_attribute(name, value)
       name = name.to_s
 

@@ -1,5 +1,6 @@
-require "active_model"
 require "set"
+require "active_model"
+require "active_support/core_ext/class/attribute_accessors"
 
 module Vault
   extend ActiveSupport::Concern
@@ -8,12 +9,14 @@ module Vault
   autoload :AttributeAccessors
   autoload :Dirty
   autoload :Properties
+  autoload :Persistance
 
   included do
     extend ActiveModel::Naming
     extend Properties
 
     include AttributeAccessors
+    include Persistance
     include Dirty
 
     include ActiveModel::Validations
@@ -21,8 +24,6 @@ module Vault
   end
 
   def initialize(attrs={})
-    @_new = true
-    @_destroyed = false
     update(attrs)
   end
 
@@ -35,10 +36,6 @@ module Vault
     @_errors ||= ActiveModel::Errors.new
   end
 
-  def persisted?
-    !@_new && !@_destroyed
-  end
-
   def update(attrs={})
     attrs.each do |key, value|
       method = "#{key}="
@@ -46,10 +43,5 @@ module Vault
     end
 
     self
-  end
-
-  def save(run_validations=true)
-    return false unless valid? if run_validations
-    @_new = false
   end
 end

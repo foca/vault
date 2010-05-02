@@ -2,11 +2,12 @@ require "spec"
 require "vault"
 
 module SpecHelpers
-  def model(&block)
-    Class.new do
-      include Vault
-      instance_eval(&block) if block
-    end
+  class BaseModel
+    include Vault
+  end
+
+  def model(base=BaseModel, &block)
+    Class.new(base, &block)
   end
 end
 

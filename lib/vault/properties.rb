@@ -42,7 +42,7 @@ module Vault
       attr_reader :name
 
       def initialize(name, primary=false, &default)
-        @name = name.to_sym
+        @name = name.to_s
         @default = default || lambda {}
         @primary = primary
       end

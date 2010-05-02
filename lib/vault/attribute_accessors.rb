@@ -13,6 +13,12 @@ module Vault
       @_attributes[name]
     end
 
+    protected
+
+    def attributes
+      @_attributes
+    end
+
     private
 
     def attributes_from_model_properties
