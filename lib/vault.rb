@@ -25,6 +25,7 @@ module Vault
 
   def initialize(attrs={})
     update(attrs)
+    changed_attributes.clear
   end
 
   def key

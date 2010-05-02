@@ -42,6 +42,17 @@ describe Vault, "defining properties" do
     person.age.should  == 28
   end
 
+  it "doesn't flag an attribute as changed if you revert the change" do
+    person_klass = model do
+      property :name
+    end
+
+    person = person_klass.new(:name => "John")
+    person.name = "Joe"
+    person.name = "John"
+    person.should_not be_changed
+  end
+
   it "provides 'dirty' attribute tracking" do
     model.included_modules.should include(ActiveModel::Dirty)
   end
