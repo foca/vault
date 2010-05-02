@@ -1,5 +1,8 @@
 module Vault
   module Finders
+    delegate :count, :to => :store
+    alias_method :size, :count
+
     def all
       store.map do |key_value, properties|
         build(key_value, properties)

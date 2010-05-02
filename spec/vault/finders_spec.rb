@@ -56,4 +56,14 @@ describe Vault do
       person_klass.find("Jamie").should be_nil
     end
   end
+
+  describe "#count" do
+    it "returns the amount of elements in the store" do
+      person_klass.count.should == 4
+    end
+
+    it "is aliased to #size" do
+      person_klass.size.should == person_klass.count
+    end
+  end
 end
