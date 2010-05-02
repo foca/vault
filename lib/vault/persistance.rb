@@ -18,7 +18,7 @@ module Vault
     end
 
     def save(run_validations=true)
-      return false unless valid? if run_validations
+      return false if run_validations && !valid?
       self.class.store[key] = attributes_except_key
       @_new = false
       true
