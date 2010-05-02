@@ -4,7 +4,15 @@ module Vault
 
     included do
       cattr_accessor :store
-      self.store = {}
+      extend Storage
+
+      store_objects_in Hash.new
+    end
+
+    module Storage
+      def store_objects_in(store)
+        self.store = store
+      end
     end
 
     def initialize(*)
