@@ -6,8 +6,15 @@ module SpecHelpers
     include Vault
   end
 
-  def model(base=BaseModel, &block)
-    Class.new(base, &block)
+  def model(name=nil, &block)
+    Class.new(BaseModel, &block).tap do |model|
+      if name.present?
+        self.class.class_eval do
+          remove_const(name) if const_defined?(name)
+          const_set(name, model)
+        end
+      end
+    end
   end
 end
 

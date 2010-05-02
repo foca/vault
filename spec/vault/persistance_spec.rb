@@ -20,6 +20,10 @@ describe Vault do
   end
 
   describe "#save" do
+    it "returns true" do
+      alice.save.should be(true)
+    end
+
     it "marks the object as persisted" do
       alice.save
       alice.should be_persisted
@@ -56,6 +60,46 @@ describe Vault do
 
       store[old_isbn].should be_blank
       store[alice.isbn].should_not be_blank
+    end
+
+    context "when the object is invalid" do
+      let :person_klass do
+        model :Person do
+          key      :email
+          property :name
+
+          validates :email, :presence => true
+          validates :name,  :presence => true
+        end
+      end
+
+      let :store do
+        person_klass.store
+      end
+
+      let :nameless_person do
+        person_klass.new(:email => "john.doe@example.org")
+      end
+
+      it "returns false" do
+        nameless_person.save.should be(false)
+      end
+
+      it "doesn't persist the object" do
+        nameless_person.save
+        nameless_person.should_not be_persisted
+      end
+
+      context "but you skip validations" do
+        it "returns true" do
+          nameless_person.save(false).should be(true)
+        end
+
+        it "persists the object anyway" do
+          nameless_person.save(false)
+          nameless_person.should be_persisted
+        end
+      end
     end
   end
 
