@@ -8,12 +8,14 @@ module Vault
 
   autoload :AttributeAccessors
   autoload :Dirty
-  autoload :Properties
+  autoload :Finders
   autoload :Persistance
+  autoload :Properties
 
   included do
     extend ActiveModel::Naming
     extend Properties
+    extend Finders
 
     include AttributeAccessors
     include Persistance
@@ -44,5 +46,9 @@ module Vault
     end
 
     self
+  end
+
+  def ==(other)
+    key == other.key
   end
 end
