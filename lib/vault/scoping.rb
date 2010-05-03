@@ -37,6 +37,28 @@ module Vault
       def store
         @store ||= @model.store.filter(conditions)
       end
+
+      def method_missing(method, *args, &block)
+        if model_has_scope?(method)
+          merge(model.scopes[method.to_s])
+        else
+          super
+        end
+      end
+
+      def respond_to?(method, include_private=false)
+        model_has_scope?(method) || super
+      end
+
+      private
+
+      def model_has_scope?(name)
+        model.scopes.include?(name.to_s)
+      end
+
+      def merge(scope)
+        Scope.new(model, conditions.merge(scope.conditions))
+      end
     end
   end
 end

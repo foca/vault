@@ -4,7 +4,11 @@ describe Vault do
   let :book_klass do
     model do
       scope :by_lewis_carroll do
-        { :author => "Lewis Carroll" }
+        { "author" => "Lewis Carroll" }
+      end
+
+      scope :titled_alice do
+        { "title" => "Alice in Wonderland" }
       end
 
       key :isbn
@@ -39,6 +43,11 @@ describe Vault do
 
   it "filters the collection by the given scope" do
     scoped = book_klass.by_lewis_carroll
-    scoped.all.should have(2).elements
+    scoped.all.should =~ [alice_in_wonderland, through_the_looking_glass]
+  end
+
+  it "lets you chain scopes" do
+    scoped = book_klass.by_lewis_carroll.titled_alice
+    scoped.all.should == [alice_in_wonderland]
   end
 end

@@ -47,7 +47,6 @@ TODO
 ----
 
 * Relationships/Associations
-* Scopes (probably just as a clean implementation of associations)
 
 More docs?
 ----------
