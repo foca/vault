@@ -1,7 +1,7 @@
 module Vault
   module Finders
-    delegate :count, :to => :store
-    alias_method :size, :count
+    delegate :size, :to => :store
+    alias_method :count, :size
 
     def all
       store.map do |key_value, properties|
