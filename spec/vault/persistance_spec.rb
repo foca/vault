@@ -64,7 +64,7 @@ describe Vault do
 
     context "when the object is invalid" do
       let :person_klass do
-        model :Person do
+        named_model :Person do
           key      :email
           property :name
 
