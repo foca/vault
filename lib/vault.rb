@@ -8,11 +8,13 @@ module Vault
   extend ActiveSupport::Autoload
 
   autoload :AttributeAccessors
+  autoload :BulkAttributes
   autoload :Dirty
   autoload :Finders
   autoload :Persistance
   autoload :Properties
   autoload :Storage
+  autoload :Validations
 
   module Storage
     extend ActiveSupport::Autoload
@@ -24,36 +26,20 @@ module Vault
     extend Properties
     extend Finders
 
+    include BulkAttributes
     include AttributeAccessors
     include Persistance
     include Dirty
+    include Validations
 
-    include ActiveModel::Validations
+    # Convenience methods to provide ActiveModel's API
     include ActiveModel::Conversion
-  end
-
-  def initialize(attrs={})
-    update(attrs)
-    changed_attributes.clear
   end
 
   def key
     send(self.class.key)
   end
   alias_method :id, :key
-
-  def errors
-    @_errors ||= ActiveModel::Errors.new
-  end
-
-  def update(attrs={})
-    attrs.each do |key, value|
-      method = "#{key}="
-      __send__(method, value)
-    end
-
-    self
-  end
 
   def ==(other)
     key == other.key
