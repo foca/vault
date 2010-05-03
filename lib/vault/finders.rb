@@ -9,7 +9,7 @@ module Vault
       end
     end
 
-    def find(key_value)
+    def [](key_value)
       properties = store[key_value]
       build(key_value, properties) if properties
     end

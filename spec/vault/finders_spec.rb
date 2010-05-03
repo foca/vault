@@ -47,13 +47,13 @@ describe Vault do
     it { should be_an(Enumerable) }
   end
 
-  describe "#find" do
+  describe "#[]" do
     it "finds an object by key" do
-      person_klass.find("Bob").should == bob
+      person_klass["Bob"].should == bob
     end
 
     it "returns nil if it doesn't find it" do
-      person_klass.find("Jamie").should be_nil
+      person_klass["Jamie"].should be_nil
     end
   end
 
