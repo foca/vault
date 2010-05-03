@@ -13,6 +13,7 @@ module Vault
   autoload :Finders
   autoload :Persistance
   autoload :Properties
+  autoload :Scoping
   autoload :Storage
   autoload :Validations
 
@@ -26,6 +27,7 @@ module Vault
     extend ActiveModel::Naming
     extend Properties
     extend Finders
+    extend Scoping
 
     include BulkAttributes
     include AttributeAccessors
