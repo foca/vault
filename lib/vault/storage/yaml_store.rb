@@ -8,9 +8,23 @@ module Vault
 
       delegate :[], :[]=, :size, :each, :delete, :to => :doc
 
-      def initialize(file)
+      def initialize(file=nil, contents=ActiveSupport::OrderedHash.new)
         @file = file
-        at_exit { flush }
+
+        if @file.nil?
+          @doc = contents
+        else
+          at_exit { flush }
+        end
+      end
+
+      def filter(query)
+        filtered = doc.inject(ActiveSupport::OrderedHash.new) do |result, (key, properties)|
+          result[key] = properties if Set.new(properties).superset?(Set.new(query))
+          result
+        end
+
+        self.class.new(nil, filtered)
       end
 
       def flush
