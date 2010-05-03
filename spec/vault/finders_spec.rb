@@ -57,13 +57,13 @@ describe Vault do
     end
   end
 
-  describe "#count" do
+  describe "#size" do
     it "returns the amount of elements in the store" do
-      person_klass.count.should == 4
+      person_klass.size.should == 4
     end
 
-    it "is aliased to #size" do
-      person_klass.size.should == person_klass.count
+    it "is aliased to #count" do
+      person_klass.count.should == person_klass.size
     end
   end
 end
