@@ -5,7 +5,7 @@ module Vault
         return self if query.blank?
 
         inject(InMemoryStore.new) do |result, (key, properties)|
-          result[key] = properties if Set.new(properties).superset?(Set.new(query))
+          result[key] = properties if properties.merge(query) == properties
           result
         end
       end

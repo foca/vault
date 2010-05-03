@@ -18,8 +18,10 @@ module Vault
       end
 
       def filter(query)
+        return filtered_copy(@doc) if query.blank?
+
         results = doc.inject(ActiveSupport::OrderedHash.new) do |result, (key, properties)|
-          result[key] = properties if Set.new(properties).superset?(Set.new(query))
+          result[key] = properties if properties.merge(query) == properties
           result
         end
 
