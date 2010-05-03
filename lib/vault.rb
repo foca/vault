@@ -1,5 +1,6 @@
 require "set"
 require "active_model"
+require "active_support/core_ext/module/delegation"
 require "active_support/core_ext/class/attribute_accessors"
 
 module Vault
@@ -11,6 +12,12 @@ module Vault
   autoload :Finders
   autoload :Persistance
   autoload :Properties
+  autoload :Storage
+
+  module Storage
+    extend ActiveSupport::Autoload
+    autoload :YamlStore
+  end
 
   included do
     extend ActiveModel::Naming
