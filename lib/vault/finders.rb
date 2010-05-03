@@ -3,8 +3,9 @@ module Vault
     delegate :size, :to => :store
     alias_method :count, :size
 
-    def all
-      store.map do |key_value, properties|
+    def all(query={})
+      query.delete(key)
+      store.filter(query).map do |key_value, properties|
         build(key_value, properties)
       end
     end

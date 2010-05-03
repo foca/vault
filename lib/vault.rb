@@ -18,6 +18,7 @@ module Vault
 
   module Storage
     extend ActiveSupport::Autoload
+    autoload :InMemoryStore
     autoload :YamlStore
   end
 

@@ -6,7 +6,7 @@ module Vault
       cattr_accessor :store
       extend Storage
 
-      store_objects_in Hash.new
+      store_objects_in Vault::Storage::InMemoryStore.new
     end
 
     module Storage

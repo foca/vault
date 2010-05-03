@@ -20,7 +20,9 @@ Storage
 -------
 
 By default Vault stores everything in an in-memory hash. Each model (class in
-    which you included the `Vault` module) has its own, independent storage.
+which you included the `Vault` module) has its own, independent storage.
+
+Subclasses of a model share their storage with their parent.
 
 To change the storage you can call `store_objects_in(store)` in the class
 definition. A store is any object that implements this API:
@@ -32,10 +34,14 @@ definition. A store is any object that implements this API:
 * `Store#[]=(key, attributes)` attributes will be a hash with the attributes
 **except** for the key.
 * `Store#delete(key)` shall delete the item without the given key.
+* `Store#filter(hash)` should return a new object of the same class as the
+  original store, but only with objects whose properties match those of the
+  argument.
 
-By default, a simple instance of Hash is a valid store. This library also
-provides `Vault::Storage::YamlStore` that lets you serialize objects into YAML.
-Each model will get its own YAML file.
+This library provides two storage mechanisms out of the box:
+
+* `Vault::Storage::InMemoryStore` is a simple hash storage (and the default)
+* `Vault::Storage::YamlStore` serializes the contents to disk as a YAML file
 
 TODO
 ----
