@@ -1,7 +1,5 @@
 module Vault
   module Scoping
-    extend ActiveSupport::Concern
-
     def scopes
       @_scopes ||= Hash.new
     end
