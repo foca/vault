@@ -63,6 +63,11 @@ describe Vault, "model" do
       should_not include(sam_ruby)
     end
 
+    it "can create objects through the association" do
+      john_doe = pickaxe_book.authors.new(:name => "John Doe").tap(&:save)
+      should include(john_doe)
+    end
+
     context "adding objects directly to the association" do
       it "persists both the container and containee" do
         pickaxe_book.authors << andy_hunt

@@ -50,4 +50,9 @@ describe Vault do
     scoped = book_klass.by_lewis_carroll.titled_alice
     scoped.all.should == [alice_in_wonderland]
   end
+
+  it "lets you initialize a new object through the scope" do
+    book = book_klass.by_lewis_carroll.new
+    book.author.should == "Lewis Carroll"
+  end
 end

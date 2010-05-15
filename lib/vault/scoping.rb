@@ -25,7 +25,7 @@ module Vault
     class Scope
       include Finders
 
-      delegate :new, :key, :model_name, :to => :model
+      delegate :key, :model_name, :to => :model
 
       attr_reader :conditions, :model
 
@@ -36,6 +36,10 @@ module Vault
 
       def store
         @store ||= @model.store.filter(conditions)
+      end
+
+      def new(attrs={})
+        @model.new(conditions.merge(attrs))
       end
 
       def method_missing(method, *)
