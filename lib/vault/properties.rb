@@ -2,11 +2,11 @@ module Vault
   module Properties
     def key(key=nil)
       return @_key if key.nil?
-      @_key = property(key, true).name
+      @_key = property(key).name
     end
 
-    def property(name, primary=false, &block)
-      Property.new(name, primary, &block).tap do |prop|
+    def property(name, &block)
+      Property.new(name, &block).tap do |prop|
         properties << prop
         define_property_methods(prop.name)
 
@@ -41,14 +41,9 @@ module Vault
     class Property
       attr_reader :name
 
-      def initialize(name, primary=false, &default)
+      def initialize(name, &default)
         @name = name.to_s
         @default = default || lambda {}
-        @primary = primary
-      end
-
-      def primary?
-        @primary
       end
 
       def default
