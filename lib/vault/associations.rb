@@ -1,8 +1,12 @@
 module Vault
   module Associations
+    def self.model_from_name(name, namespace=self.class)
+      name.is_a?(Class) ? name : namespace.const_get(name)
+    end
+
     def has_many(name, klass_name=name.to_s.classify, foreign_key="#{self.to_s.underscore.singularize}_key")
       define_method name do
-        model = klass_name.is_a?(Class) ? klass_name : self.class.const_get(klass_name)
+        model = Associations.model_from_name(klass_name)
         HasManyProxy.new(self, model, foreign_key, foreign_key => key)
       end
     end
@@ -13,7 +17,7 @@ module Vault
       property(foreign_key)
 
       define_method name do
-        model = klass_name.is_a?(Class) ? klass_name : self.class.const_get(klass_name)
+        model = Associations.model_from_name(klass_name)
         model[send(foreign_key)]
       end
 
