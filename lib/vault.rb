@@ -8,6 +8,7 @@ module Vault
   extend ActiveSupport::Concern
   extend ActiveSupport::Autoload
 
+  autoload :Associations
   autoload :AttributeAccessors
   autoload :BulkAttributes
   autoload :Dirty
@@ -29,6 +30,7 @@ module Vault
     extend Properties
     extend Finders
     extend Scoping
+    extend Associations
 
     include BulkAttributes
     include AttributeAccessors

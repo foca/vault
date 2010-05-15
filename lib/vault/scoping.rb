@@ -38,7 +38,7 @@ module Vault
         @store ||= @model.store.filter(conditions)
       end
 
-      def method_missing(method, *args, &block)
+      def method_missing(method, *)
         if model_has_scope?(method)
           merge(model.scopes[method.to_s])
         else

@@ -13,8 +13,6 @@ module Vault
       @_attributes[name]
     end
 
-    protected
-
     def attributes
       @_attributes
     end
