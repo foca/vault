@@ -4,10 +4,10 @@ module Vault
       name.is_a?(Class) ? name : namespace.const_get(name)
     end
 
-    def has_many(name, klass_name=name.to_s.classify, foreign_key="#{self.to_s.underscore.singularize}_key")
+    def has_many(name, klass_name=name.to_s.classify, foreign_key="#{self.to_s.underscore.singularize}_key", &block)
       define_method name do
         model = Associations.model_from_name(klass_name)
-        HasManyProxy.new(self, model, foreign_key, foreign_key => key)
+        HasManyProxy.new(self, model, foreign_key, foreign_key => key, &block)
       end
     end
 
@@ -27,10 +27,11 @@ module Vault
     end
 
     class HasManyProxy < Scoping::Scope
-      def initialize(owner, model, foreign_key, conditions={})
+      def initialize(owner, model, foreign_key, conditions={}, &block)
         super(model, conditions)
         @owner = owner
         @foreign_key = foreign_key
+        yield self, owner, model if block_given?
       end
 
       def <<(object)

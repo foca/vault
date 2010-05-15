@@ -13,6 +13,11 @@ describe Vault, "model" do
     belongs_to :book
   end
 
+  class BlogPost
+    include Vault
+    key :title
+  end
+
   let(:pickaxe_book) { Book.new(:title => "Programming Ruby") }
 
   let(:dave_thomas)  { Author.new(:name => "Dave Thomas") }
@@ -68,6 +73,18 @@ describe Vault, "model" do
         pickaxe_book.authors << andy_hunt << sam_ruby
         should include(andy_hunt, sam_ruby)
       end
+    end
+
+    it "can provide a block to extend the has_many association" do
+      post = BlogPost.new(:title => "Introducing Vault")
+
+      BlogPost.has_many :authors do |association, blog_post, author_klass|
+        association.should be_a(Vault::Associations::HasManyProxy)
+        blog_post.should == post
+        author_klass.should == Author
+      end
+
+      post.authors # trigger the model being evaluated
     end
   end
 end
