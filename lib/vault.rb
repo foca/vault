@@ -1,5 +1,6 @@
 require "set"
 require "active_model"
+require "active_support/core_ext/hash/except"
 require "active_support/core_ext/module/delegation"
 require "active_support/core_ext/class/attribute_accessors"
 
