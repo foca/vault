@@ -1,6 +1,10 @@
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+
 require "rake"
 require "rake/gempackagetask"
 require "rake/rdoctask"
+
+require "vault/version"
 
 begin
   require "spec/rake/spectask"
@@ -16,7 +20,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name              = "vault"
-  s.version           = "0.0.0"
+  s.version           = Vault::Version::STRING
   s.summary           = "Provides a very lightweight ODM"
   s.author            = "Nicolás Sanguinetti"
   s.email             = "hi@nicolassanguinetti.info"
